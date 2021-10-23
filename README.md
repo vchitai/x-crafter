@@ -1,6 +1,6 @@
 # x-crafter
 
-:smile: x-crafter is used to quickly create template from your prototype, use with go-template-parser to quickly generate any code
+:smile: x-crafter is used to quickly create templates from your prototype, also come with a builder to quickly regenerate your code.
 
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/github.com/vchitai/x-crafter)
 [![License](https://img.shields.io/badge/license-MIT-%2397ca00.svg)](https://github.com/vchitai/x-crafter/blob/master/LICENSE)
@@ -18,7 +18,7 @@
 ### Using go
 
 ```console
-$ go get -u github.com/vchitai/x-crafter
+$ go get -u github.com/vchitai/x-crafter/cmd
 ```
 
 [comment]: <> (## Stargazers over time)
