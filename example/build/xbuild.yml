@@ -1,0 +1,16 @@
+params:
+  module_name: module_name
+  package_name: package_name
+  var_customer: var_customer
+
+template_root: layers
+
+steps:
+  - name: parse base
+    parse: base
+  - name: parse module
+    parse: module
+  - name: init go mod
+    run: ["go", "mod", "init", "github.com/vchitai/x-crafter/example/go-proj_rebuilt"]
+  - name: tidy
+    run: ["go", "mod", "tidy"]

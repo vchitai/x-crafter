@@ -1,0 +1,20 @@
+syntax:
+  ".go":
+    start: "/*X"
+    end: "X*/"
+    inline: "//X"
+  ".html":
+    start: "<!--X"
+    end: "X-->"
+
+layers:
+  base:
+    - cmd/*
+    - internal/test/*
+  module:
+    - internal/module_name/*
+
+kwargs:
+  module_name: module_name
+  package_name: package_name
+  var_customer: var_customer

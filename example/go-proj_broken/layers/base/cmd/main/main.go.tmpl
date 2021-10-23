@@ -1,0 +1,22 @@
+package main
+
+import (
+	"log"
+	"os"
+
+	{{- range .Modules }}
+	"{{.package_name}}/internal/{{.module_name}}" {{ end  }}
+)
+
+func run(_ []string) error {
+	{{ range .Modules  }}
+	{{.module_name}}.SaySomething()
+	{{ end  }}
+	return nil
+}
+
+func main() {
+	if err := run(os.Args); err != nil {
+		log.Fatal(err)
+	}
+}

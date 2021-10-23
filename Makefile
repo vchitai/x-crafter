@@ -22,3 +22,12 @@ unittest:
 			rm -f /tmp/profile.out; \
 		  fi)); done
 		@mv /tmp/gocoverage $(GOCOVERAGE_FILE)
+
+.PHONY: break-example-go-proj
+break-example-go-proj:
+	x-crafter break example/go-proj
+
+.PHONY: build-example-go-proj
+build-example-go-proj:
+	rm -r example/go-proj_rebuilt
+	x-crafter build example/go-proj_broken example/go-proj_rebuilt --guide=example/build/xbuild.yml

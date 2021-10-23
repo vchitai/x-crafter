@@ -1,0 +1,15 @@
+#X- if .Values.rbac.create
+apiVersion: rbac.authorization.k8s.io/v1
+#X- if .Values.rbac.clusterWide
+kind: ClusterRole
+#X- else
+#Okind: Role
+#X- end
+metadata:
+  name: #X template "telegraf.fullname" .
+  namespace: #X .Release.Namespace
+  labels:
+  #X- include "telegraf.labels" . | nindent 4
+rules:
+  #X toYaml .Values.rbac.rules | indent 2
+#X- end

@@ -1,0 +1,8 @@
+syntax:
+  ".yaml":
+    inline: "#X"
+    optional: "#O"
+
+layers:
+  charts:
+    - role.yaml
