@@ -83,6 +83,9 @@ func WithGuidePath(guidePath string) Option {
 
 func WithGuideData(guideData []byte, ext string) Option {
 	return func(c *config) {
+		if _, ok := supportedBuildGuide[ext]; !ok {
+			log.Fatal("Load a not supported ext")
+		}
 		var err error
 		c.guide, err = loadGuide(guideData, ext)
 		if err != nil {
