@@ -14,6 +14,7 @@ import (
 
 type Builder struct {
 	*Guide
+	*config
 	parser parser.Parser
 }
 
@@ -22,13 +23,9 @@ func (builder *Builder) getParser() parser.Parser {
 		return builder.parser
 	}
 
-	var fsOpt = builder.TemplateFS
-	if fsOpt == nil {
-		fsOpt = os.DirFS(builder.TemplateRoot)
-	}
 	return parser.New(
 		parser.WithWatermark(builder.Watermark),
-		parser.WithFS(fsOpt),
+		parser.WithFS(builder.sourceFS),
 		parser.WithParams(builder.Params),
 	)
 }
