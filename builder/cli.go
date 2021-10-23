@@ -23,6 +23,7 @@ func Command() *cobra.Command {
 			)
 			if err != nil {
 				cmd.PrintErr(err)
+				return
 			}
 			if err := bdr.Execute(destination); err != nil {
 				cmd.PrintErr(err)
