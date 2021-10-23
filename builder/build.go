@@ -69,6 +69,7 @@ func (builder *Builder) execute(step *Step, at string) error {
 		return cmd.Run()
 	}
 	if step.Parse != "" {
+		var parsePath = filepath.Join(builder.sourcePath, "/layers", step.Parse)
 		if step.Repeat != nil {
 			for _, m := range interfaceToMapSlice(builder.Params[step.Repeat.For]) {
 				var subParam = cloneMap(builder.Params)
@@ -78,13 +79,13 @@ func (builder *Builder) execute(step *Step, at string) error {
 				var psr = builder.getParser().WithOption(
 					parser.WithParams(subParam),
 				)
-				if err := psr.Parse(step.Parse, at); err != nil {
+				if err := psr.Parse(parsePath, at); err != nil {
 					log.Println("Parsing error", err)
 				}
 			}
 		} else {
 			var psr = builder.getParser()
-			if err := psr.Parse(step.Parse, at); err != nil {
+			if err := psr.Parse(parsePath, at); err != nil {
 				log.Println("Parsing error", err)
 			}
 		}

@@ -19,7 +19,7 @@ func Command() *cobra.Command {
 			)
 			bdr, err := New(
 				WithGuidePath(guidePath),
-				WithSourceFS(os.DirFS(source+"/layers"), "."),
+				WithSourceFS(os.DirFS(source), "."),
 			)
 			if err != nil {
 				cmd.PrintErr(err)
