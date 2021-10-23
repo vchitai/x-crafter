@@ -114,6 +114,6 @@ func (builder *Builder) Execute(at string) error {
 	return nil
 }
 
-func New(guide *Guide) *Builder {
-	return &Builder{Guide: guide}
+func newBuilder(guide *Guide, cfg *config) *Builder {
+	return &Builder{Guide: guide, config: cfg}
 }

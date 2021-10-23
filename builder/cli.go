@@ -9,7 +9,7 @@ import (
 func Command() *cobra.Command {
 	var guidePath string
 	cmd := &cobra.Command{
-		Use:   "Build [SOURCE] [DESTINATION]",
+		Use:   "build [SOURCE] [DESTINATION]",
 		Short: "Using your broken pile to once again craft your thing again",
 		Args:  cobra.ExactArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -17,9 +17,9 @@ func Command() *cobra.Command {
 				source      = args[0]
 				destination = args[1]
 			)
-			bdr, err := Create(
-				WithSourceFS(os.DirFS(source), "."),
+			bdr, err := New(
 				WithGuidePath(guidePath),
+				WithSourceFS(os.DirFS(source+"/layers"), "."),
 			)
 			if err != nil {
 				cmd.PrintErr(err)
