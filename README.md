@@ -21,6 +21,27 @@
 $ go get -u github.com/vchitai/x-crafter/cmd
 ```
 
+## Usage
+
+Use --help to see more option
+```bash 
+X-Crafter is used to quickly make a go code prototype quickly become reproducible
+
+Usage:
+  x-crafter [command]
+
+Available Commands:
+  break       Convert your prototype into recraftable golang templates
+  build       Using your broken pile to once again craft your thing again
+  completion  generate the autocompletion script for the specified shell
+  help        Help about any command
+
+Flags:
+  -h, --help   help for x-crafter
+
+Use "x-crafter [command] --help" for more information about a command.
+```
+
 ## What is this tool for?
 Remember the last time you set a new project up? Normally, we just clone an old project into a new one.
 Later, we will replace some old names with new ones. And do some setup jobs.
