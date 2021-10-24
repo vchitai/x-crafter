@@ -43,7 +43,141 @@ So there's this tool come to help, to combine all the advantages from both the a
 
 Let us go through a quick example to demonstrate the way it may help you achieve your goal.
 
+# Break a whole project
 
+Set up a whole project is a common case in a new world. As aforementioned, we can fork a template repository into a new one. We can also copy an old project into a new one and do some setup. But this approach may meet some limits. 
+
+So we are going to use the turn a whole project into templates.
+
+```bash
+example/go-proj
+├── cmd
+│   └── main
+│       └── main.go
+├── go.mod
+├── go.sum
+├── internal
+│   ├── module_name
+│   │   └── module.go
+│   └── test
+│       ├── embed.go
+│       └── x.html
+└── xbreak.yaml
+```
+
+Same as the above example, we should also provide a break guide for the breaker in order to create the templates.
+
+```yaml
+syntax:
+  ".go":
+    start: "/*X"
+    end: "X*/"
+    inline: "//X"
+  ".html":
+    start: "<!--X"
+    end: "X-->"
+
+layers:
+  base:
+    - cmd/*
+    - internal/test/*
+  module:
+    - internal/module_name/*
+
+args:
+    - module_name
+
+kwargs:
+  package_name: package_name
+  var_customer: var_customer
+```
+
+We define the syntax for go files and html files in the `syntax` option. Then the `layers` to start collect the scraps buckets for later use. With the `args` and `kwargs` option, the `breaker` will fine and mark all the provided vocabulary set as arguments, which are ready to be replaced in the future.
+
+Run the break command
+```bash
+$ x-crafter break example/go-proj
+```
+
+And as result,
+
+```bash
+example/go-proj_broken
+├── layers
+│   ├── base
+│   │   ├── cmd
+│   │   │   └── main
+│   │   │       └── main.go.tmpl
+│   │   └── internal
+│   │       └── test
+│   │           ├── embed.go.tmpl
+│   │           └── x.html.tmpl
+│   └── module
+│       └── internal
+│           └── {{module_name}}
+│               └── module.go.tmpl
+└── version
+```
+
+## Rebuild the project again
+
+The broken components have been arranged into a structure that is ready to be used to recrafted a new project.
+
+In order to use the builder, you must provide a build guide. You can provide a custom path with `guide` option like `--guide=example/build/xbuild.yml`. If you did not provide one, the builder will look for `xbuild.yaml` in your template folder for the guide.
+
+```yaml
+params:
+  module:
+    - module_name: a_secret_module
+  package_name: package_x
+  var_customer: customer A
+  project_pkg_path: github.com/vchitai/x-crafter/example/go-proj_rebuilt
+
+template_root: layers
+
+steps:
+  - name: parse base
+    parse: base
+    on: .
+  - name: parse module
+    parse: module
+    repeat:
+      for: module
+  - name: init go mod
+    run: ["go", "mod", "init", "${PROJECT_PKG_PATH}"]
+  - name: tidy
+    run: ["go", "mod", "tidy"]
+    on: .
+    env:
+        - GOSUMDB=off
+```
+
+In this guide, we provide the builder the parameter that used to replace for the arguments was marked in the break step with `params` option. `template_root` specifiy the template folder root if you have another template project structure. The `steps` option specify the steps that need to be done in order to craft you next project. `name` annotate the name of the step. `parse` option tell the builder to parse the layer, relative to the `template_root` into the the location specify in `on` option. The module may be parse multiple times using the `repeat` option using the params.
+
+Parsing may not the only thing needed to set you project up. Sometimes you may need to run additional setup with command lines. So use the `run` option, that will run the following command from the location annotated in `on` option. Extra environment variable may be passed into the comman using the `env` option. You can also use the environment that created through the `params` option, for example `${PROJECT_PKG_PATH}` that is provided through `project_pkg_path`
+
+Run the build command
+```bash
+$ x-crafter build example/go-proj_broken example/go-proj_broken
+```
+
+and what we will get 
+
+```bash
+example/go-proj_rebuilt
+├── cmd
+│   └── main
+│       └── main.go
+├── go.mod
+└── internal
+    ├── module_name
+    │   └── module.go
+    └── test
+        ├── embed.go
+        └── x.html
+```
+
+The project is all set up and ready to be run. 
 
 [comment]: <> (## Stargazers over time)
 
