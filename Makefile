@@ -25,9 +25,9 @@ unittest:
 
 .PHONY: break-example-go-proj
 break-example-go-proj:
-	go run cmd/*.go break example/go-proj
+	go run *.go break example/go-proj
 
 .PHONY: build-example-go-proj
 build-example-go-proj:
 	rm -r example/go-proj_rebuilt || true
-	go run cmd/*.go build example/go-proj_broken example/go-proj_rebuilt --guide=example/build/xbuild.yml
+	go run *.go build example/go-proj_broken example/go-proj_rebuilt --guide=example/build/xbuild.yml

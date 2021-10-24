@@ -18,7 +18,7 @@
 ### Using go
 
 ```console
-$ go get -u github.com/vchitai/x-crafter/cmd
+$ go get -u github.com/vchitai/x-crafter
 ```
 
 ## Usage
