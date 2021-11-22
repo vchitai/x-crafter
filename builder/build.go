@@ -33,6 +33,18 @@ func (builder *Builder) execute(step *Step, at string) error {
 	var startTime = time.Now()
 	log.Println("Working on step", step.Name)
 	at = filepath.Join(at, step.On)
+
+	if builder.flow != "" {
+		if step.Condition == nil {
+			return nil
+		}
+		if step.Condition.When == "" {
+			return nil
+		}
+		if step.Condition.When != "" && builder.flow != step.Condition.When {
+			return nil
+		}
+	}
 	if step.Condition != nil {
 		if step.Condition.NotInstalled != "" {
 			if _, err := exec.LookPath(step.Condition.NotInstalled); err == nil {
@@ -45,14 +57,6 @@ func (builder *Builder) execute(step *Step, at string) error {
 				return nil
 			} else if len(x) == 0 {
 				// not doing
-				return nil
-			}
-		}
-		if builder.flow != "" {
-			if step.Condition.When == "" {
-				return nil
-			}
-			if step.Condition.When != "" && builder.flow != step.Condition.When {
 				return nil
 			}
 		}
