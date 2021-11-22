@@ -48,8 +48,13 @@ func (builder *Builder) execute(step *Step, at string) error {
 				return nil
 			}
 		}
-		if step.Condition.When != "" && builder.flow != "" && builder.flow != step.Condition.When {
-			return nil
+		if builder.flow != "" {
+			if step.Condition.When == "" {
+				return nil
+			}
+			if step.Condition.When != "" && builder.flow != step.Condition.When {
+				return nil
+			}
 		}
 	}
 	if len(step.Run) > 0 {
