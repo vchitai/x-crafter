@@ -34,7 +34,6 @@ func (builder *Builder) execute(step *Step, at string) error {
 	log.Println("Working on step", step.Name)
 	at = filepath.Join(at, step.On)
 
-	log.Println(builder.flow, step.Condition)
 	if builder.flow != "" {
 		if step.Condition == nil {
 			return nil
@@ -53,8 +52,8 @@ func (builder *Builder) execute(step *Step, at string) error {
 				return nil
 			}
 		}
-		if step.Condition.Exists == "" {
-			if x, err := filepath.Glob(step.Condition.Exists); err != nil {
+		if step.Condition.Exists != nil {
+			if x, err := filepath.Glob(*step.Condition.Exists); err != nil {
 				return nil
 			} else if len(x) == 0 {
 				// not doing
