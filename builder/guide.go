@@ -8,6 +8,7 @@ import (
 type StepCondition struct {
 	NotInstalled string `json:"not_installed" yaml:"not_installed"`
 	Exists       string `json:"exists" yaml:"exists"`
+	When         string `json:"when" yaml:"when"`
 }
 type StepRepeat struct {
 	For string `json:"for" yaml:"for"`

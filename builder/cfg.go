@@ -16,6 +16,7 @@ type config struct {
 	sourceFS   fs.FS
 	sourcePath string
 	guide      *Guide
+	flow       string
 }
 
 func DefaultConfig() *config {
@@ -46,6 +47,12 @@ func (c *config) Build() (*Builder, error) {
 }
 
 type Option func(*config)
+
+func WithFlow(flow string) Option {
+	return func(c *config) {
+		c.flow = flow
+	}
+}
 
 func WithSourceFS(sourceFS fs.FS, sourcePath string) Option {
 	return func(c *config) {
