@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/vchitai/x-crafter/parser"
 	"gopkg.in/yaml.v3"
 )
 
@@ -17,6 +18,7 @@ type config struct {
 	sourcePath string
 	guide      *Guide
 	flow       string
+	parserOpts []parser.Opt
 }
 
 func DefaultConfig() *config {
@@ -85,6 +87,12 @@ func WithGuidePath(guidePath string) Option {
 		}
 
 		WithGuideData(data, filepath.Ext(guidePath))(c)
+	}
+}
+
+func WithParserOpts(parserOpts ...parser.Opt) Option {
+	return func(c *config) {
+		c.parserOpts = append(c.parserOpts, parserOpts...)
 	}
 }
 

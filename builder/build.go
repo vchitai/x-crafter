@@ -24,9 +24,11 @@ func (builder *Builder) getParser() parser.Parser {
 	}
 
 	return parser.New(
-		parser.WithWatermark(builder.Watermark),
-		parser.WithFS(builder.sourceFS),
-		parser.WithParams(builder.Params),
+		append([]parser.Opt{
+			parser.WithWatermark(builder.Watermark),
+			parser.WithFS(builder.sourceFS),
+			parser.WithParams(builder.Params),
+		}, builder.parserOpts...)...,
 	)
 }
 func (builder *Builder) execute(step *Step, at string) error {
